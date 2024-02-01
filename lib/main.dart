@@ -79,71 +79,88 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     return Scaffold(
       backgroundColor: const Color(0xFF294D4A),
-      body: Column(
-        children: [
-          SizedBox(
-            height: size,
-            width: double.maxFinite,
+      body: Center(
+        child: AnimatedBuilder(
+          animation: Listenable.merge(
+            [
+              _xController,
+              _yController,
+              _zController,
+            ],
           ),
-          AnimatedBuilder(
-              animation: Listenable.merge([
-                _xController,
-                _yController,
-                _zController,
-              ]),
-              builder: (context, child) {
-                return Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.identity()
-                    ..rotateX(_animation.evaluate(_xController))
-                    ..rotateY(_animation.evaluate(_yController))
-                    ..rotateZ(_animation.evaluate(_zController)),
-                  child: Stack(
-                    children: [
-                      // back
-                      Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.identity()
-                          ..translate(
-                            Vector3(0, 0, -size),
-                          ),
-                        child: Container(
-                          width: size,
-                          height: size,
-                          color: Colors.purple,
-                        ),
+          builder: (context, child) {
+            return Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()
+                ..rotateX(_animation.evaluate(_xController))
+                ..rotateY(_animation.evaluate(_yController))
+                ..rotateZ(_animation.evaluate(_zController)),
+              child: Stack(
+                children: [
+                  // back
+                  Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..translate(
+                        Vector3(0, 0, -size),
                       ),
-                      // left
-                      Transform(
-                        alignment: Alignment.centerLeft,
-                        transform: Matrix4.identity()..rotateY(pi / 2),
-                        child: Container(
-                          width: size,
-                          height: size,
-                          color: Colors.red,
-                        ),
-                      ),
-                      // right
-                      Transform(
-                        alignment: Alignment.centerRight,
-                        transform: Matrix4.identity()..rotateY(-pi / 2),
-                        child: Container(
-                          width: size,
-                          height: size,
-                          color: Colors.red,
-                        ),
-                      ),
-                      // front
-                      Container(
-                        width: size,
-                        height: size,
-                        color: Colors.green,
-                      ),
-                    ],
+                    child: Container(
+                      width: size,
+                      height: size,
+                      color: Colors.purple,
+                    ),
                   ),
-                );
-              })
-        ],
+                  // left
+                  Transform(
+                    alignment: Alignment.centerLeft,
+                    transform: Matrix4.identity()..rotateY(pi / 2),
+                    child: Container(
+                      width: size,
+                      height: size,
+                      color: Colors.red,
+                    ),
+                  ),
+                  // right
+                  Transform(
+                    alignment: Alignment.centerRight,
+                    transform: Matrix4.identity()..rotateY(-pi / 2),
+                    child: Container(
+                      width: size,
+                      height: size,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  // front
+                  Container(
+                    width: size,
+                    height: size,
+                    color: Colors.green,
+                  ),
+                  // top
+                  Transform(
+                    alignment: Alignment.topCenter,
+                    transform: Matrix4.identity()..rotateX(-pi / 2),
+                    child: Container(
+                      width: size,
+                      height: size,
+                      color: Colors.orange,
+                    ),
+                  ),
+                  // bottom
+                  Transform(
+                    alignment: Alignment.bottomCenter,
+                    transform: Matrix4.identity()..rotateX(pi / 2),
+                    child: Container(
+                      width: size,
+                      height: size,
+                      color: Colors.brown,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
